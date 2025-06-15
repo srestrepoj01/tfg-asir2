@@ -3,7 +3,7 @@
 
 # Verificar compatibilidad del SO
 if ! grep -qi "ubuntu" /etc/os-release; then
-    echo "This script is designed for Ubuntu systems only."
+    echo "Este script está diseñado solo para sistemas Ubuntu."
     exit 1
 fi
 
@@ -15,9 +15,9 @@ exec > >(tee -i /var/log/mastodon_install.log)
 exec 2>&1
 
 # Captura de errores
-trap 'echo "Error occurred at line $LINENO"; exit 1' ERR
+trap 'echo "Ocurrio un error en la linea $LINENO"; exit 1' ERR
 
-echo "Starting Mastodon deployment..."
+echo "Iniciando el despliegue de Mastodon..."
 
 # 1. Actualizar paquetes e instalar dependencias
 apt-get update -y
@@ -25,16 +25,16 @@ apt-get upgrade -y
 apt-get install -y ca-certificates curl gnupg lsb-release
 
 # Añadir la clave GPG de Docker
-echo "Ensuring Docker GPG key is present..."
+echo "Verificando que la clave GPG de Docker este presente..."
 DOCKER_GPG_PATH="/etc/apt/keyrings/docker.gpg"
 
 mkdir -p /etc/apt/keyrings
 
 if [ ! -f "$DOCKER_GPG_PATH" ]; then
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o "$DOCKER_GPG_PATH"
-  echo "Docker GPG key installed."
+  echo "Clave GPG de Docker instalada."
 else
-  echo "Docker GPG key already exists at $DOCKER_GPG_PATH — skipping."
+  echo "La clave GPG de Docker ya existe en $DOCKER_GPG_PATH — omitiendo."
 fi
 
 # Instalar el plugin de Docker Compose
@@ -269,4 +269,4 @@ docker compose up -d
 # 10. Verificar estado
 docker compose ps
 
-echo "Mastodon deployment completed successfully!"
+echo "Despliegue de Mastodon completado con exito!"
